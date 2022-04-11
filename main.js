@@ -10,11 +10,25 @@
 const searchButton = document.querySelector('.js-buttonSearch');
 const list = document.querySelector('.js-list');
 const input = document.querySelector('.js-input');
-
+const favList = document.querySelector('.js-favList');
       
 
 let info = [];
                                                     
+
+// por si me faltan imagenes en la API
+function drinkThumbPlaceholder(){
+  for (const drink of info) {
+    if(drink.strDrinkThumb === ''){
+      drink.strDrinkThumb = "https://via.placeholder.com/210x295/ffffff/666666/?text=Cocktail"
+    }
+  }
+}
+
+
+
+
+
 
 
     //pinto 
@@ -45,30 +59,23 @@ function paintHTML(info) {
 
     list.innerHTML = html;
     listenerCocktails();
+    paintFavs();
+
+
       
-      //listener de las bebidas cuando acabo de pintar
+      //listener de las bebidas cuando hace click en cada cocktail
+
+      function drinkclickListener() {
+        const liCocktail =document.querySelectorAll('.js-drink');
+        for (const drink of liCocktail ) {
+          drink.addEventListener('click', handleClickDrink);
+        }
+      }
 };
 
    
     
-    
-
-
-// favoritos 
-
-//almacenaje en localstorage
-// reset
-// ev intermedia
-
-    
-
-//concatenar APIS
-// añadir imagen cuando no hay imagen
-
-
-
-
-//escuchar evento fav
+//array para favs
 
 let favorites = [];
 
@@ -94,26 +101,39 @@ function handleClickDrink(event){
         favorites.splice(favoriteFoundIndex, 1);
     } 
     paintHTML();
-    console.log(favorites);
+  
 };
 
 
 
-function listenerCocktails() {
-const liBebidas = document.querySelectorAll('.js-drinks');
-for (const item of liBebidas) {
-    item.addEventListener('click', handleClickDrink)
-        
-}};
+function paintFavs() {
+  let html = '';
+  for (const drink of favourites) {
+    let classFav = '';
+    const favoriteFoundIndex = favorites.findIndex((fav) =>{
+      return fav.idDrink === drink.idDrink;
+    });
+    if (favoriteFoundIndex !== -1) {
+      classFav = 'class-favorite';
+    } else {
+      classFav = '';
+    }
+     html += `<li class='js-drinks li ${classFavorite}' id=${drink.idDrink}>`;
+    html += `<img class='imagen' src=${drink.strDrinkThumb}>`;
+    html += `<h2 class ='h2'>${drink.strDrink}</h2>`;
+    html +=`</div>`;
+    html += `</li>`;
+
+  }
+  favList.innerHTML = html;
+}
 
 
 
 
 
 
-
-
-//filtrar
+//filtrar cocktails mediante input text
 
 function handleInput(event) {
     event.preventDefault();
@@ -130,7 +150,12 @@ input.addEventListener('keyup', handleInput);
 
 
 
-//está en localstorage?
+
+
+
+
+
+//fetch obtener datos + está en localstorage?
 
 const listFilterStorage = JSON.parse(localStorage.getItem('listaBebidas'));
 
