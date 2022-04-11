@@ -103,7 +103,7 @@ function handleClickDrink(event){
         favorites.splice(favoriteFoundIndex, 1);
     } 
     paintHTML();
-  
+    saveInLocal();
 };
 
 
@@ -128,6 +128,7 @@ function paintFavs() {
 
   }
   favList.innerHTML = html;
+  saveInLocal();
 }
 
 
@@ -177,17 +178,23 @@ reset.addEventListener('click', handleReset);
 
 //que funcione con fav
 
-function saveLocal() {
+function saveFromLocal() {
 
-const listFilterStorage = JSON.parse(localStorage.getItem('listaBebidas'));
+const localStorageDrinks = localStorage.getItem("favorites");
 
-if(listFilterStorage !== null) {
-    info = listFilterStorage;
-    paintHTML(info);
+if(localStorageDrinks !== null) {
+    const saveFavs = JSON.parse(localStorageDrinks);
+    favorites = saveFavs;
+    paintFavs();
 
-}else {
+}
 
-
-  
 };
 
+
+function saveInLocal() {
+  const stringifyFav = JSON.stringify(favorites);
+  localStorage.setItem("favorites", stringifyFav)
+}
+
+saveFromLocal();
