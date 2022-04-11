@@ -25,6 +25,9 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.divList {
+    display: flex;
+}
 
 
 .body {
@@ -44,5 +47,11 @@
     background-color: red;
     border: red 1px solid;
     color:red;
+    
 };
+
+.color-favorite {
+    background-color: red;
+    border: red 1px solid;
+    color:red;
 

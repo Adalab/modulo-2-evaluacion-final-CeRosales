@@ -134,7 +134,7 @@ function paintFavs() {
 
 
 
-//filtrar cocktails mediante input text
+//filtrar cocktails 
 
 function handleInput(event) {
     event.preventDefault();
@@ -167,6 +167,9 @@ if(listFilterStorage !== null) {
     paintHTML(info);
 
 }else {
+
+
+  
 
 //funcion click
      let inputName = input.value;
