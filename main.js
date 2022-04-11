@@ -1,11 +1,6 @@
 'use strict';
 
 
-/*La aplicación de búsqueda de cócteles consta de dos partes:
-. Un campo de texto y un botón para buscar un cóctel por su título.
-. Un listado de resultados de búsqueda donde aparece la imagen del cóctel y el nombre.*/
-
-
 
 const searchButton = document.querySelector('.js-buttonSearch');
 const list = document.querySelector('.js-list');
@@ -24,7 +19,7 @@ function drinkThumbPlaceholder(){
       drink.strDrinkThumb = "https://via.placeholder.com/210x295/ffffff/666666/?text=Cocktail"
     }
   }
-}
+};
 
 
 
@@ -32,7 +27,7 @@ function drinkThumbPlaceholder(){
 
 
 
-    //pinto 
+//pinto 
     
 function paintHTML() {
     let html = '';
@@ -68,14 +63,18 @@ function paintHTML() {
 
 };
 
-        //listener de las bebidas cuando hace click en cada cocktail
+//listener de las bebidas cuando hace click en cada cocktail
 
     function drinkclickListener() {
       const liCocktail =document.querySelectorAll('.js-drink');
       for (const drink of liCocktail ) {
         drink.addEventListener('click', handleClickDrink);
       }
-    }
+    };
+
+
+
+
     
 //array para favs +  escuchar +  pintar
 
@@ -106,7 +105,7 @@ function handleClickDrink(event){
     saveInLocal();
 };
 
-
+//pinto los favs
 
 function paintFavs() {
   let html = '';
@@ -129,7 +128,7 @@ function paintFavs() {
   }
   favList.innerHTML = html;
   saveInLocal();
-}
+};
 
 
 
@@ -145,6 +144,11 @@ function handleInput(event) {
 }
 
 searchButton.addEventListener('click', handleInput);
+
+
+
+
+// traigo datos de la API
 
 
 function fetchCall(searchedDrink) {
@@ -174,7 +178,7 @@ reset.addEventListener('click', handleReset);
 
 
 
-//fetch obtener datos + está en localstorage?
+// localstorage
 
 //que funcione con fav
 
