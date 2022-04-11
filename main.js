@@ -40,7 +40,7 @@ function paintHTML(info) {
     let classFavorite = '';
         
     const favoriteFoundIndex = favorites.findIndex(fav=>{
-        return fav.idDrink === drink.id;
+        return fav.idDrink === drink.idDrink;
     });
 
     if(favoriteFoundIndex !== -1){
@@ -49,33 +49,34 @@ function paintHTML(info) {
         classFavorite ='';
     };
 
-    html += `<li class='js-drinks li ${classFavorite}' id=${drink.idDrink}>`;
+    html += `<li class='js-drink li ${classFavorite}' id=${drink.idDrink}>`;
     html += `<img class='imagen' src=${drink.strDrinkThumb}>`;
     html += `<h2 class ='h2'>${drink.strDrink}</h2>`;
     html +=`</div>`;
     html += `</li>`;
-            //falta cerrar div y li
+            
     }
 
     list.innerHTML = html;
-    listenerCocktails();
+
+    drinkclickListener();
     paintFavs();
 
 
       
-      //listener de las bebidas cuando hace click en cada cocktail
 
-      function drinkclickListener() {
-        const liCocktail =document.querySelectorAll('.js-drink');
-        for (const drink of liCocktail ) {
-          drink.addEventListener('click', handleClickDrink);
-        }
-      }
 };
 
-   
+        //listener de las bebidas cuando hace click en cada cocktail
+
+    function drinkclickListener() {
+      const liCocktail =document.querySelectorAll('.js-drink');
+      for (const drink of liCocktail ) {
+        drink.addEventListener('click', handleClickDrink);
+      }
+    }
     
-//array para favs
+//array para favs +  escuchar +  pintar
 
 let favorites = [];
 
@@ -100,7 +101,7 @@ function handleClickDrink(event){
     }else { //eliminar drink de fav
         favorites.splice(favoriteFoundIndex, 1);
     } 
-    paintHTML();
+    paintHTML(info);
   
 };
 
@@ -108,7 +109,7 @@ function handleClickDrink(event){
 
 function paintFavs() {
   let html = '';
-  for (const drink of favourites) {
+  for (const drink of favorites) {
     let classFav = '';
     const favoriteFoundIndex = favorites.findIndex((fav) =>{
       return fav.idDrink === drink.idDrink;
@@ -118,7 +119,7 @@ function paintFavs() {
     } else {
       classFav = '';
     }
-     html += `<li class='js-drinks li ${classFavorite}' id=${drink.idDrink}>`;
+     html += `<li class='js-drinks li ${classFav}' id=${drink.idDrink}>`;
     html += `<img class='imagen' src=${drink.strDrinkThumb}>`;
     html += `<h2 class ='h2'>${drink.strDrink}</h2>`;
     html +=`</div>`;
@@ -157,6 +158,8 @@ input.addEventListener('keyup', handleInput);
 
 //fetch obtener datos + está en localstorage?
 
+//que funcione con fav
+
 const listFilterStorage = JSON.parse(localStorage.getItem('listaBebidas'));
 
 if(listFilterStorage !== null) {
@@ -164,6 +167,8 @@ if(listFilterStorage !== null) {
     paintHTML(info);
 
 }else {
+
+//funcion click
      let inputName = input.value;
      fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputName}')
     .then((response) => response.json())
