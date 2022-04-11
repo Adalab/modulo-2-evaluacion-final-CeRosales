@@ -11,6 +11,7 @@ const searchButton = document.querySelector('.js-buttonSearch');
 const list = document.querySelector('.js-list');
 const input = document.querySelector('.js-input');
 const favList = document.querySelector('.js-favList');
+const reset = document.querySelector('.js-buttonReset');
       
 
 let info = [];
@@ -33,7 +34,7 @@ function drinkThumbPlaceholder(){
 
     //pinto 
     
-function paintHTML(info) {
+function paintHTML() {
     let html = '';
 
     for (const drink of info) {
@@ -101,7 +102,7 @@ function handleClickDrink(event){
     }else { //eliminar drink de fav
         favorites.splice(favoriteFoundIndex, 1);
     } 
-    paintHTML(info);
+    paintHTML();
   
 };
 
@@ -138,27 +139,45 @@ function paintFavs() {
 
 function handleInput(event) {
     event.preventDefault();
-    const filterValue = input.value ;
-    const listFilter = info.filter(palette => {
-        return palette.strDrink.toLowerCase().includes(filterValue.toLowerCase());
-    });
-   
-    paintHTML(listFilter);
+    const searchedDrink= input.value.toLowerCase() ;
+    fetchCall(searchedDrink);
 }
 
-input.addEventListener('keyup', handleInput);
+searchButton.addEventListener('click', handleInput);
 
 
+function fetchCall(searchedDrink) {
+  fetch(
+    `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchedDrink}`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      info = data.drinks;
+      drinkThumbPlaceholder();
+      paintHTML();
+    });
+}
 
 
+//reset
 
+function handleReset(event) {
+  event.preventDefault();
+  favorites.splice(0, favorites.length);
+  input.value = '';
+  info = [];
+  paintHTML();
+}
 
+reset.addEventListener('click', handleReset);
 
 
 
 //fetch obtener datos + está en localstorage?
 
 //que funcione con fav
+
+function saveLocal() {
 
 const listFilterStorage = JSON.parse(localStorage.getItem('listaBebidas'));
 
@@ -170,18 +189,5 @@ if(listFilterStorage !== null) {
 
 
   
-
-//funcion click
-     let inputName = input.value;
-     fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputName}')
-    .then((response) => response.json())
-    .then((cocktailData) => { 
-        console.log(cocktailData);
-        info = cocktailData.drinks;
-        localStorage.setItem('listaBebidas', JSON.stringify(info))
-        paintHTML(info);
-       
-    });
-   
-    };
+};
 
