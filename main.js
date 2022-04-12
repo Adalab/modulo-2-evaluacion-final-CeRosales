@@ -7,7 +7,15 @@ const list = document.querySelector('.js-list');
 const input = document.querySelector('.js-input');
 const favList = document.querySelector('.js-favList');
 const reset = document.querySelector('.js-buttonReset');
-      
+const buttonLog = document.querySelector('.js-buttonLog');    
+
+//Al hacer clic sobre el botón LOG hay que pintar en la consola ‘Tienes X favoritos’ (número de favs). Al ser posible accediendo al array para leer el número de favs, no al DOM.
+
+
+
+
+
+
 
 let info = [];
                                                     
@@ -24,13 +32,15 @@ function drinkThumbPlaceholder(){
 
 
 
-
+//Si el cóctel tiene 4 ingredientes o más que pinte el cuarto  ingrediente también
 
 
 //pinto 
     
 function paintHTML() {
     let html = '';
+
+
 
     for (const drink of info) {
     let classFavorite = '';
@@ -43,18 +53,24 @@ function paintHTML() {
         classFavorite = 'color-favorite'
     }else {
         classFavorite ='';
-    };
+    }
 
+   
+
+   
     html += `<li class='js-drink li ${classFavorite}' id=${drink.idDrink}>`;
     html += `<img class='imagen' src=${drink.strDrinkThumb}>`;
     html += `<h2 class ='h2'>${drink.strDrink}</h2>`;
+    html += `<h3 class='h3'>${drink.strIngredient1} ${drink.strIngredient2} ${drink.strIngredient3}</h3>`;
+    if (drink.strIngredient4 !== null) {
+       html += `<h3>${drink.strIngredient4}</h3>`
+    };
     html +=`</div>`;
     html += `</li>`;
             
     }
 
     list.innerHTML = html;
-
     drinkclickListener();
     paintFavs();
 
@@ -76,7 +92,7 @@ function paintHTML() {
 
 
     
-//array para favs +  escuchar +  pintar
+//array para favs +   pintar
 
 let favorites = [];
 
@@ -119,7 +135,7 @@ function paintFavs() {
     } else {
       classFav = '';
     }
-     html += `<li class='js-drinks li ${classFav}' id=${drink.idDrink}>`;
+    html += `<li class='js-drinks li ${classFav}' id=${drink.idDrink} >`;
     html += `<img class='imagen' src=${drink.strDrinkThumb}>`;
     html += `<h2 class ='h2'>${drink.strDrink}</h2>`;
     html +=`</div>`;
@@ -202,3 +218,17 @@ function saveInLocal() {
 }
 
 saveFromLocal();
+
+
+//Añadir a las tarjetas de resultados 3 ingredientes del cóctel  (strIngredient1, strIngredient2, strIngredient3).
+
+
+
+function handleFavX() {
+  console.log('Tienes')
+  console.log(favorites.length);
+  console.log('favs');
+}
+
+
+buttonLog.addEventListener('click', handleFavX );
